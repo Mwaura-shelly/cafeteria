@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Order Confirmed</title>
+</head>
+
+<body>
+
+    <h1>🎉 Order Placed Successfully!</h1>
+
+    <h2>Order Number: {{ order_number }}</h2>
+
+    <p>Total: KSh {{ total }}</p>
+
+    <p>Status: <strong>{{ status }}</strong></p>
+    <a href="/order-status/{{ order_number }}">
+    Check Order Status
+</a>
+
+    <br>
+
+    <a href="/">Back to Menu</a>
+
+</body>
+</html>
+

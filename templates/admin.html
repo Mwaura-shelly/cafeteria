@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>MUST Mess Admin</title>
+</head>
+
+<body>
+
+    <h1>MUST Mess Admin Dashboard</h1>
+    
+    <h2>Add Food</h2>
+
+<form action="/admin/add" method="POST">
+
+    <label for="name">Food name:</label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="price">Price:</label>
+    <input type="number" id="price" name="price" min="0" required>
+
+    <button type="submit">Add Food</button>
+
+</form>
+
+    <h2>Menu Items</h2>
+
+{% for item in menu %}
+    <div>
+        <strong>{{ item['name'] }}</strong>
+        — KSh {{ item['price'] }}
+
+        {% if item['quantity'] > 0 %}
+            — Quantity: {{ item['quantity'] }}
+        {% endif %}
+
+        <a href="/admin/edit/{{ item['id'] }}">Edit</a>
+
+        <form action="/admin/toggle/{{ item['id'] }}" method="POST" style="display:inline;">
+            <button type="submit">
+                {% if item['available'] %}
+                    Mark Sold Out
+                {% else %}
+                    Mark Available
+                {% endif %}
+            </button>
+        </form>
+
+        <form action="/admin/delete/{{ item['id'] }}" method="POST" style="display:inline;">
+            <button type="submit">Delete</button>
+        </form>
+    </div>
+{% endfor %}
+
+<h2>Customer Orders</h2>
+
+{% if orders %}
+
+    {% for order in orders %}
+
+        <div>
+            <strong>{{ order['order_number'] }}</strong>
+            <br>
+
+            Items: {{ order['items'] }}
+            <br>
+
+            Total: KSh {{ order['total'] }}
+            <br>
+
+            Status:
+
+<form action="/admin/order/{{ order['id'] }}/status" method="POST" style="display:inline;">
+
+    <select name="status" onchange="this.form.submit()">
+
+        <option value="Pending"
+            {% if order['status'] == 'Pending' %}selected{% endif %}>
+            Pending
+        </option>
+
+        <option value="Served"
+            {% if order['status'] == 'Served' %}selected{% endif %}>
+            Served
+        </option>
+
+    </select>
+
+</form>
+
+            <hr>
+        </div>
+
+    {% endfor %}
+
+{% else %}
+
+    <p>No orders yet.</p>
+
+{% endif %}
+    
+
+</body>
+</html>

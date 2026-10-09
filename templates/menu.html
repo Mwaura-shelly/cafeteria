@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title> MUST MESS MENU</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='menu.css') }}">
+<script src="{{ url_for('static', filename='menu.js') }}" defer></script>
+    </head>
+    <body>
+        <h1>MUST MESS MENU</h1>
+        <h2> MENU </h2>
+        <section class="cart" aria-labelledby="cart-title">
+            <h2 id="cart-title">Cart</h2>
+            <p class="empty-cart">Your cart is empty.</p>
+            <button id="place-order" type="button">Place Order</button>
+            <ul id="cart-items"></ul>
+        </section>
+        <ul>
+    {% for item in menu %}
+    <li
+    data-name="{{ item['name'] }}"
+    data-price="{{ item['price'] }}"
+    data-available="{{ item['available'] }}"
+    data-quantity="{{ item['quantity'] }}"
+>
+        {% if item['image'] %}
+    <img src="{{ url_for('static', filename='images/' + item['image']) }}" alt="{{ item['name'] }}">
+{% endif %}
+        
+        <span class="item-name">{{ item['name'] }}</span>
+
+        <span class="price">
+            KSh {{ item['price'] }}
+        </span>
+
+        {% if item['quantity'] > 0 %}
+    <span class="availability">
+        Available: {{ item['quantity'] }}
+    </span>
+{% endif %}
+        
+        {% if not item['available'] %}
+        <span class="sold-out">SOLD OUT</span>
+        {% endif %}
+
+        <span class="quantity">0</span>
+
+        <button class="minus" type="button">-</button>
+        <button class="plus" type="button">+</button>
+
+    </li>
+    {% endfor %}
+    </ul>
+       
+        
+    </body>
+</html>
